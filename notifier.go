@@ -36,6 +36,12 @@ func (n *Notifier) Register() (done <-chan struct{}, finish func()) {
 	}
 }
 
+// Wait until all goroutines have finished cleaning up. Does not send shutdown
+// signal.
+func (n *Notifier) Wait() {
+	n.wg.Wait()
+}
+
 // Notify sends the shutdown signal immediately and does not wait until
 // registered goroutines have finished cleaning up.
 func (n *Notifier) Notify() {
